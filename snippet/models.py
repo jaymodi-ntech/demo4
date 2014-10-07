@@ -1,6 +1,9 @@
 from django.db import models
 from pygments.lexers import get_all_lexers
 from pygments.styles import get_all_styles
+from rest_framework import serializers
+
+
 
 LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
@@ -21,3 +24,8 @@ class Snippet(models.Model):
 
     class Meta:
         ordering = ('created',)
+
+class SnippetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Snippet
+        fields = ('id', 'title', 'code', 'linenos', 'language', 'style')

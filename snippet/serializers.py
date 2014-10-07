@@ -36,4 +36,5 @@ class SnippetSerializer(serializers.Serializer):
 
         # Create new instance
         return Snippet(**attrs)
-    
+
+
