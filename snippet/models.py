@@ -25,7 +25,11 @@ class Snippet(models.Model):
     class Meta:
         ordering = ('created',)
 
-class SnippetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Snippet
-        fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+class myblog(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100)
+    details= models.CharField(max_length=300)
+    name=models.CharField(max_length=100)
+# I removed the previous code because it was not belonging to this models.py file from the scratch
+#  I was meant to put that in serializers.py file and Now I'm doing this.
+#  go to serializers.py and you will find out

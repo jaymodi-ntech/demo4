@@ -12,6 +12,8 @@ from snippet import views
 urlpatterns = patterns('',
     url(r'^snippets/$', views.SnippetList.as_view()),
     url(r'^snippets/(?P<pk>[0-9]+)/$', views.SnippetDetail.as_view()),
+    url(r'^blogs/$', views.BlogList.as_view()),
+    url(r'^blogs/(?P<pk>[0-9]+)/$', views.BlogDetail.as_view())
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)
