@@ -3,6 +3,8 @@ __author__ = 'mj'
 from django.forms import widgets
 from rest_framework import serializers
 from snippet.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from snippet.models import myblog
+from django.contrib.auth.models import User
 
 # Version 1 of SnippetSerializers
 # This is old tech code.
@@ -40,7 +42,22 @@ from snippet.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
 
 # Snippet serializer works the same as the above class
 # This will work with model serializers directly and convert all data to serializers
+
+
 class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
         fields = ('id', 'title', 'code', 'linenos', 'language', 'style')
+
+class BlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = myblog
+        fields = ('id','name','title','details')
+
+class UserSerializer(serializers.ModelSerializer):
+    blogs = serializers.PrimaryKeyRelatedField(many=True)
+    owner = serializers.Field(source='owner.username')
+    class Meta:
+        model = User
+        owner = User
+        fields = ('id', 'username', 'blogs')

@@ -25,11 +25,18 @@ class Snippet(models.Model):
     class Meta:
         ordering = ('created',)
 
+owner = models.ForeignKey('auth.User', related_name='myblog')
+
 class myblog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100)
     details= models.CharField(max_length=300)
     name=models.CharField(max_length=100)
+
+def save(self, *args, **kwargs):
+
+    super(Snippet, self).save(*args, **kwargs)
+
 # I removed the previous code because it was not belonging to this models.py file from the scratch
 #  I was meant to put that in serializers.py file and Now I'm doing this.
 #  go to serializers.py and you will find out

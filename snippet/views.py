@@ -11,6 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import  Http404
+from rest_framework import permissions
+from snippet.permissions import IsOwnerOrReadOnly
 # # this has been added to work with api_view, status and responce
 #
 # # We'll start off by creating a subclass of HttpResponse that we can
@@ -178,8 +180,9 @@ from django.http import  Http404
 # calling of CBV and GCV are the same
 #  This code looks too preety.
 from snippet.models import Snippet, myblog
-from snippet.serializers import SnippetSerializer, BlogSerializer
+from snippet.serializers import SnippetSerializer, BlogSerializer, UserSerializer
 from rest_framework import generics
+from django.contrib.auth.models import User
 
 
 class SnippetList(generics.ListCreateAPIView):
@@ -193,11 +196,26 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
 class BlogList(generics.ListCreateAPIView):
     queryset = myblog.objects.all()
     serializer_class = BlogSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    def pre_save(self, obj):
+        obj.owner = self.request.user
 
 class BlogDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = myblog.objects.all()
     serializer_class = BlogSerializer
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly,)
+    def pre_save(self, obj):
+        obj.owner = self.request.user
 
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 # class BlogList(APIView):
 #     """

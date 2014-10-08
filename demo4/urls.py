@@ -9,4 +9,9 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^', include('snippet.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^mj_auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
+#     I can use whatever i want to use at the mj_auth place.
+#     just make sure that the name_space is as it is.
+#     Rest is fine.
 )
